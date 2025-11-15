@@ -1,0 +1,30 @@
+ --- A program to calculate the derivative based on the derivative order ---
+1. A Polynomial class to store the whole polynomial function
+    The member(s) are:
+        - a character as the symbol of the function
+        - a character as the symbol of the variable
+        - a vector to store all the Terms
+    The member function(s) are:
+        - derivative(): take the first derivative of the current polynomial by taking the derivative of 
+                        each Term in the vector
+        - toString(): return the whole polynomial as a string
+
+2. A Term class for each of the terms in the polynomial
+    The member(s) are:
+        - a Fraction as the coefficient
+        - a character as the variable
+        - an integer as the exponent
+        - an integer as the sign
+    The member function(s) are:
+        - multiply(): multiply the coefficient by a number (the number would be passed into the function)
+        - derivative(): take the first derivative of the Term
+        - toString(): return the Term as a string
+        - toStringFirst(): return the Term as a string (for the first Terms in the polynomials)
+
+3. Main function
+    - Let user input the function
+    - Read the data, check whether the polynomial is valid or not.
+    - If valid, create a Polynomial, determine the number of Terms
+    - Let user enter the derivative order
+    - Calculate the derivative order
+    - Display the result

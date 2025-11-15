@@ -1,0 +1,11 @@
+{
+    "files.associations": {
+        "*.embeddedhtml": "html",
+        "xstring": "cpp",
+        "string": "cpp",
+        "ostream": "cpp",
+        "iostream": "cpp",
+        "xmemory": "cpp"
+    },
+    "C_Cpp.errorSquiggles": "enabled"
+}
