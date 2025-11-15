@@ -75,6 +75,26 @@ public:
         int slash = coefficient.find("/");
         int dot = coefficient.find(".");
 
+        // Find constant characters in the numerator and denominator
+        string numChar = "";
+        string denomChar = "";
+
+        // Iterate and find all the characters
+        for (int i = 0; i < coefficient.length(); i++)
+        {
+            if (isalpha(coefficient.at(i)))
+            {
+                if (i > slash  && slash != string::npos)
+                {
+                    denomChar += coefficient.at(i);
+                }
+                else
+                {
+                    numChar += coefficient.at(i);
+                }
+            }
+        }
+
         // If i == npos it means we couldn't find any / and . => not a fraction or decimal => integer
         if (slash == string::npos && dot == string::npos)
         {
@@ -84,12 +104,14 @@ public:
             // Multiply the coefficient with the number we passed into the function
             coe *= num;
 
-            // Convert it back to a string
-            coefficient = to_string(coe);
+            // Convert it back to a string and add the constant characters
+            coefficient = to_string(coe) + numChar;
         }
         // If we found a . but not a / => this is a decimal value
         else if (slash == string::npos && dot != string::npos)
         {
+            // Find any characters
+
             // Convert the string to a double
             double coe = stod(coefficient);
 
@@ -100,11 +122,14 @@ public:
             coefficient = to_string(coe);
 
             // Clean the 0s
-            while (coefficient.back() == '0')
+            while (coefficient.back() == '0' || coefficient.back() == '.')
             {
                 // Remove the last stringacter
                 coefficient.pop_back();
             }
+
+            // Add the constant characters back in
+            coefficient += numChar;
         }
         // If we found a / but not a . => this is an integer / integer fraction
         else if (slash != string::npos && dot == string::npos)
@@ -128,19 +153,25 @@ public:
             {
                 if (numerator == 1)
                 {
-                    // No need to put anything in front of x
-                    coefficient = "";
+                    // Only add constants characters
+                    coefficient = numChar;
                 }
                 else
                 {
-                    // Convert the numerator to a string
-                    coefficient = to_string(numerator);
+                    // Convert the numerator to a string and add constants characters
+                    coefficient = to_string(numerator) + numChar;
+                }
+
+                if (denomChar.length() > 0)
+                {
+                    // Add the denominator in
+                    coefficient += "/" + denomChar;
                 }
             }
             else
             {
                 // Convert the numerator and the denominator
-                coefficient = to_string(numerator) + "/" + to_string(denominator);
+                coefficient = to_string(numerator) + numChar + "/" + to_string(denominator) + denomChar;
             }
         }
     }
