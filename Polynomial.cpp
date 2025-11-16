@@ -9,22 +9,25 @@
 using namespace std;
 
 // Constructor
-Polynomial::Polynomial(vector<Term> poly, string f, string x)
+Polynomial::Polynomial(vector<Term> poly, string f, string x, int d)
 {
     functionSymbol = f;
     variable = x;
     polynomial = poly;
+    derivativeOrder = d;
 }
 
 // Accessors / Getters
 vector<Term> Polynomial::getPolynomial() const { return polynomial; }
 string Polynomial::getFunctionSymbol() const { return functionSymbol; }
 string Polynomial::getVariable() const { return variable; }
+int Polynomial::getDerivativeOrder() const { return derivativeOrder; }
 
 // Mutators / Setters
 void Polynomial::setPolynomial(vector<Term> poly) { polynomial = poly; }
 void Polynomial::setFunctionSymbol(string fs) { functionSymbol = fs; }
 void Polynomial::setVariable(string v) { variable = v; }
+void Polynomial::setDerivativeOrder(int dl) { derivativeOrder = dl; }
 
 // AddTerm() function
 void Polynomial::addTerm(Term t)
@@ -55,9 +58,28 @@ void Polynomial::derivative()
 // ToString() function
 string Polynomial::toString()
 {
-    string str = "";
+    string func = "";
 
-    str += functionSymbol + "(" + variable + ") = ";
+    if (derivativeOrder == 0)
+    {
+        func += functionSymbol + "(" + variable + ") = ";
+    }
+    else if (derivativeOrder <= 3)
+    {
+        func += functionSymbol;
+
+        // Display all the '
+        for (int i = 0; i < derivativeOrder; i++)
+        {
+            func += "'";
+        }
+
+        func += "(" + variable + ") = ";
+    }
+    else
+    {
+        func += functionSymbol + "(" + to_string(derivativeOrder) + ")" + "(" + variable + ") = ";
+    }
 
     string poly = "";
 
@@ -76,7 +98,7 @@ string Polynomial::toString()
         poly = "0";
     }
 
-    return str + poly;
+    return func + poly;
 }
 
 // Sort() function

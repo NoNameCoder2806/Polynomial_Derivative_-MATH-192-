@@ -14,7 +14,7 @@ using namespace std;
 bool checkFunction(string data);
 void reformatString(string &data);
 Term createTerm(string data, string variable);
-Polynomial createPolynomial(string data);
+Polynomial createPolynomial(string data, int order);
 
 // Main function
 int main()
@@ -37,14 +37,14 @@ int main()
             cout << "Please enter a valid polynomial function: ";
             getline(cin, line);
         }
-
-        // Create the polynomial
-        Polynomial f = createPolynomial(line);
-
+        
         // Prompt the user to enter the order of the derivative
         cout << "Enter the derivative order: ";
         cin >> order;
         cin.ignore(1000, 10);
+
+        // Create the polynomial
+        Polynomial f = createPolynomial(line, order);
 
         // Loop and calculate the derivative
         for (int i = 0; i < order; i++)
@@ -272,7 +272,7 @@ Term createTerm(string data, string variable)
     return t;
 }
 
-Polynomial createPolynomial(string data)
+Polynomial createPolynomial(string data, int order)
 {
     // Reformat the string
     reformatString(data);
@@ -311,6 +311,11 @@ Polynomial createPolynomial(string data)
                 // Trim the string
                 terms = terms.substr(first);
             }
+            else
+            {
+                // This is the only Term in the polynomial
+                terms = "";
+            }
         }
         else
         {
@@ -338,7 +343,7 @@ Polynomial createPolynomial(string data)
     }
 
     // Create a polynomial
-    Polynomial f(termsVector, func, var);
+    Polynomial f(termsVector, func, var, order);
 
     return f;
 }

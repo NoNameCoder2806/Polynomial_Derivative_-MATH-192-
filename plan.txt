@@ -4,6 +4,7 @@
         - a character as the symbol of the function
         - a character as the symbol of the variable
         - a vector to store all the Terms
+        - an integer to store the derivative level
     The member function(s) are:
         - derivative(): take the first derivative of the current polynomial by taking the derivative of 
                         each Term in the vector
