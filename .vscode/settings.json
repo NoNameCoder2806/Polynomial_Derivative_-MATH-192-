@@ -6,7 +6,8 @@
         "ostream": "cpp",
         "iostream": "cpp",
         "xmemory": "cpp",
-        "cstdlib": "cpp"
+        "cstdlib": "cpp",
+        "vector": "cpp"
     },
     "C_Cpp.errorSquiggles": "enabled"
 }

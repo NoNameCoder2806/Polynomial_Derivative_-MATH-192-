@@ -1,5 +1,6 @@
 // Student: Dat Hoang Vien
 // Course: MATH-192
+// Assignment: Capturing Math Through Art
 
 // Libraries
 #include <iostream>
@@ -15,6 +16,7 @@ void reformatString(string &data);
 Term createTerm(string data, string variable);
 Polynomial createPolynomial(string data);
 
+// Main function
 int main()
 {
     string line = "";
@@ -25,8 +27,16 @@ int main()
     while (toupper(choice) == 'Y')
     {
         // Prompt the user to enter a function
-        cout << "Enter a polynomial:" << endl;
+        cout << "Enter a polynomial function: ";
         getline(cin, line);
+
+        // Check whether the entered function was valid
+        while (!checkFunction(line))
+        {
+            // Prompt the user to enter a new function
+            cout << "Please enter a valid polynomial function: ";
+            getline(cin, line);
+        }
 
         // Create the polynomial
         Polynomial f = createPolynomial(line);
@@ -42,6 +52,9 @@ int main()
             // Take the derivative
             f.derivative();
         }
+
+        // Sort the Terms
+        f.sort();
 
         // Display the result
         cout << "Result: " << f.toString() << endl;
@@ -119,7 +132,7 @@ bool checkFunction(string data)
     if (!numCharExist)
     {
         // Display a message
-        cout << "Your function must have a number or character after the =!" << endl;
+        cout << "Your function must have a number or character after the '='!" << endl;
 
         return false;
     }
@@ -142,7 +155,7 @@ void reformatString(string &data)
         i = data.find("++");
         if (i != string::npos)
         {
-            data = data.substr(0, i) + "+" + data.substr(i + 1);
+            data = data.substr(0, i) + "+" + data.substr(i + 2);
             continue;
         }
 
@@ -150,7 +163,7 @@ void reformatString(string &data)
         i = data.find("--");
         if (i != string::npos)
         {
-            data = data.substr(0, i) + "+" + data.substr(i + 1);
+            data = data.substr(0, i) + "+" + data.substr(i + 2);
             continue;
         }
 
@@ -158,7 +171,7 @@ void reformatString(string &data)
         i = data.find("+-");
         if (i != string::npos)
         {
-            data = data.substr(0, i) + "-" + data.substr(i + 1);
+            data = data.substr(0, i) + "-" + data.substr(i + 2);
             continue;
         }
 
@@ -166,7 +179,7 @@ void reformatString(string &data)
         i = data.find("-+");
         if (i != string::npos)
         {
-            data = data.substr(0, i) + "-" + data.substr(i + 1);
+            data = data.substr(0, i) + "-" + data.substr(i + 2);
             continue;
         }
 

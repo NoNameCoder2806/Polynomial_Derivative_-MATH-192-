@@ -1,5 +1,8 @@
 // Student: Dat Hoang Vien
 // Course: MATH-192
+// Assignment: Capturing Math Through Art
+
+#pragma once
 
 // Libraries and headers
 #include <iostream>
@@ -18,244 +21,35 @@ private:
 
 public:
     // Constructor
-    Term(string var = "x", string coe = "1", int p = 1, int s = 1)
-    {
-        variable = var;
-        coefficient = coe;
-        exponent = p;
-        sign = s;
-    }
+    Term(string var = "x", string coe = "1", int p = 1, int s = 1);
 
     // Accessors / Getters
-    string getVariable() const
-    {
-        return variable;
-    }
-
-    string getCoefficient() const
-    {
-        return coefficient;
-    }
-
-    int getExponent() const
-    {
-        return exponent;
-    }
-
-    int getSign() const
-    {
-        return sign;
-    }
+    string getVariable() const;
+    string getCoefficient() const;
+    int getExponent() const;
+    int getSign() const;
 
     // Mutators / Setters
-    void setVariable(string var)
-    {
-        variable = var;
-    }
-    
-    void setCoefficient(string coe)
-    {
-        coefficient = coe;
-    }
+    void setVariable(string var);
+    void setCoefficient(string coe);
+    void setExponent(int p);
+    void setSign(int s);
 
-    void setExponent(int p)
-    {
-        exponent = p;
-    }
-
-    void setSign(int s)
-    {
-        sign = s;
-    }
+    // Operator<()
+    bool operator<(const Term &other);
 
     // Multiply() function
-    void multiply(string &coefficient, int num)
-    {
-        // We try to find the / and . to see if this is a fraction or decimal value or not
-        int slash = coefficient.find("/");
-        int dot = coefficient.find(".");
-
-        // Find constant characters in the numerator and denominator
-        string numChar = "";
-        string denomChar = "";
-
-        // Iterate and find all the characters
-        for (int i = 0; i < coefficient.length(); i++)
-        {
-            if (isalpha(coefficient.at(i)))
-            {
-                if (i > slash  && slash != string::npos)
-                {
-                    denomChar += coefficient.at(i);
-                }
-                else
-                {
-                    numChar += coefficient.at(i);
-                }
-            }
-        }
-
-        // If i == npos it means we couldn't find any / and . => not a fraction or decimal => integer
-        if (slash == string::npos && dot == string::npos)
-        {
-            // Convert the string to an integer
-            int coe = stoi(coefficient);
-
-            // Multiply the coefficient with the number we passed into the function
-            coe *= num;
-
-            // Convert it back to a string and add the constant characters
-            coefficient = to_string(coe) + numChar;
-        }
-        // If we found a . but not a / => this is a decimal value
-        else if (slash == string::npos && dot != string::npos)
-        {
-            // Find any characters
-
-            // Convert the string to a double
-            double coe = stod(coefficient);
-
-            // Multiply the coefficient with the number we passed into the function
-            coe *= double (num);
-
-            // Convert it back to a string
-            coefficient = to_string(coe);
-
-            // Clean the 0s
-            while (coefficient.back() == '0' || coefficient.back() == '.')
-            {
-                // Remove the last stringacter
-                coefficient.pop_back();
-            }
-
-            // Add the constant characters back in
-            coefficient += numChar;
-        }
-        // If we found a / but not a . => this is an integer / integer fraction
-        else if (slash != string::npos && dot == string::npos)
-        {
-            // Convert the numerator and the denominator
-            int numerator = stoi(coefficient.substr(0, slash));
-            int denominator = stoi(coefficient.substr(slash + 1));
-
-            // Multiply the numerator by num
-            numerator *= num;
-
-            // Find the greatest common divisor
-            int g = gcd(numerator, denominator);
-            
-            // Divide both the numerator and the denominator by the greatest common divisor
-            numerator /= g;
-            denominator /= g;
-
-            // Convert it back to a string
-            if (denominator == 1)
-            {
-                if (numerator == 1)
-                {
-                    // Only add constants characters
-                    coefficient = numChar;
-                }
-                else
-                {
-                    // Convert the numerator to a string and add constants characters
-                    coefficient = to_string(numerator) + numChar;
-                }
-
-                if (denomChar.length() > 0)
-                {
-                    // Add the denominator in
-                    coefficient += "/" + denomChar;
-                }
-            }
-            else
-            {
-                // Convert the numerator and the denominator
-                coefficient = to_string(numerator) + numChar + "/" + to_string(denominator) + denomChar;
-            }
-        }
-    }
+    void multiply(string &coefficient, int num);
 
     // Gcd() function
-    int gcd(int a, int b)
-    {
-        if (b == 0)
-        {
-            return abs(a);
-        }
-
-        return gcd(b, a % b);
-    }
+    static int gcd(int a, int b);
 
     // Derivative() function
-    void derivative()
-    {
-        // If the exponent is not 0, we will need to calculate the derivative
-        if (exponent > 0)
-        {
-            // Decrease the exponent by 1
-            exponent = exponent - 1;
-
-            // Multiply the coefficient by the original exponent
-            multiply(coefficient, exponent + 1);
-        }
-        // Otherwise (if the exponent is 0) then this is a number
-        else
-        {
-            // Therefore, the derivative will be 0
-            coefficient = "";
-            exponent = 0;
-            sign = 0;
-        }
-    }
+    void derivative();
 
     // ToString() function: convert the Term to a string
-    string toString()
-    {
-        // Create a variable to store the whole string sequence
-        string fullTerm = "";
-
-        // If the sign is negative, we add a - to the front
-        if (sign == -1)
-        {
-            fullTerm += " - ";
-        }
-        // Otherwise, we add a + to the front
-        else if (sign == 1)
-        {
-            fullTerm += " + ";
-        }
-
-        // Then, we add the coefficient to the Term
-        fullTerm += coefficient;
-
-        // If the exponent is 0, we ignore it
-        if (exponent == 0)
-        {
-            ;
-        }
-        // If the exponent is 1, we only add the variable to the string
-        else if (exponent == 1)
-        {
-            fullTerm += variable;
-        }
-        // Otherwise, we add the variable and the exponent
-        else
-        {
-            fullTerm += variable + "^" + to_string(exponent);
-        }
-
-        // Return the string
-        return fullTerm;
-    }
+    string toString();
 
     // DebugInfo() function
-    void debugInfo()
-    {
-        // Display all the data of the Term
-        cout << "Sign: " << (sign == 1 ? "+" : "-") << endl;
-        cout << "Coefficient: " << (coefficient.length() == 0 ? "1" : coefficient) << endl;
-        cout << "Variable: " << variable << endl;
-        cout << "Exponent: " << exponent << endl;
-    }
+    void debugInfo();
 };
