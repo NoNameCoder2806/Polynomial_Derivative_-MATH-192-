@@ -6,9 +6,11 @@
         - a vector to store all the Terms
         - an integer to store the derivative level
     The member function(s) are:
+        - addTerm(): add a Term to the Polynomial
         - derivative(): take the first derivative of the current polynomial by taking the derivative of 
                         each Term in the vector
         - toString(): return the whole polynomial as a string
+        - sort(): sort the Terms in the Polynomial
 
 2. A Term class for each of the terms in the polynomial
     The member(s) are:
@@ -20,7 +22,6 @@
         - multiply(): multiply the coefficient by a number (the number would be passed into the function)
         - derivative(): take the first derivative of the Term
         - toString(): return the Term as a string
-        - toStringFirst(): return the Term as a string (for the first Terms in the polynomials)
 
 3. Main function
     - Let user input the function
