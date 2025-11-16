@@ -126,6 +126,8 @@ bool checkFunction(string data)
         if (isalnum(right.at(i)))
         {
             numCharExist = true;
+
+            break;
         }
     }
     
