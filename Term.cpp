@@ -169,6 +169,8 @@ void Term::multiply(string &coefficient, int num)
             coefficientString.pop_back();
         }
 
+        cout << "Coefficient string: " << coefficientString << endl;
+
         // No constant characters
         if (numChar.length() == 0)
         {
@@ -178,7 +180,7 @@ void Term::multiply(string &coefficient, int num)
         else          // Have at least 1 constant character
         {
             // Check whether the coefficient is 1
-            if (coe == 1)
+            if (coefficientString == "1")
             {
                 // Only add the character
                 coefficient = numChar;
@@ -292,7 +294,10 @@ string Term::toString()
     }
 
     // Then, we add the coefficient to the Term
-    fullTerm += coefficient;
+    if (coefficient != "1" && exponent > 0)
+    {
+        fullTerm += coefficient;
+    }
 
     // If the exponent is 0, we ignore it
     if (exponent == 0)
