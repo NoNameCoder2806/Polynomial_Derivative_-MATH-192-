@@ -55,63 +55,147 @@ void Term::multiply(string &coefficient, int num)
     string denomChar = "";
 
     // Iterate and find all the characters
-    for (int i = 0; i < coefficient.length(); i++)
+    for (int i = 0; i < coefficient.length();)
     {
+        // If we find a character
         if (isalpha(coefficient.at(i)))
         {
+            // We compare its position to the position of the /
             if (i > slash  && slash != string::npos)
             {
+                // If it comes after the /, we add it to the denominator
                 denomChar += coefficient.at(i);
             }
             else
             {
+                // Otherwise, we add it to the numerator
                 numChar += coefficient.at(i);
             }
+
+            // Remove the character from the coefficient
+            coefficient.erase(i, 1);
+
+            // Check whether the coefficient is now empty
+            if (coefficient.empty())
+            {
+                // Break out of the loop
+                break;
+            }
         }
+        else
+        {
+            // We only increment if the character is not found
+            i++;
+        }
+    }
+
+    // Split the coefficient into the numerator and denominator
+    string numeratorString = "";
+    string denominatorString = "";
+
+    // Check whether the / exists
+    if (slash != string::npos)
+    {
+        // If it does, we split the numerator and denominator
+        numeratorString = coefficient.substr(0, slash);
+        denominatorString = coefficient.substr(slash + 1);
+    }
+    else
+    {
+        // If the slash does not exist
+        numeratorString = coefficient;
+    }
+
+    // Check whether the numerator is empty
+    if (numeratorString.empty())
+    {
+        // If it is, we let the numeratorString be 1
+        numeratorString = "1";
+    }
+
+    // Check whether the denominator is empty
+    if (denominatorString.empty())
+    {
+        // If it is, we let the denominatorString be 1
+        denominatorString = "1";
     }
 
     // If i == npos it means we couldn't find any / and . => not a fraction or decimal => integer
     if (slash == string::npos && dot == string::npos)
     {
         // Convert the string to an integer
-        int coe = stoi(coefficient);
+        int coe = stoi(numeratorString);
 
         // Multiply the coefficient with the number we passed into the function
         coe *= num;
 
-        // Convert it back to a string and add the constant characters
-        coefficient = to_string(coe) + numChar;
+        // No constant characters
+        if (numChar.length() == 0)
+        {
+            // Only add the number
+            coefficient = to_string(coe);
+        }
+        else          // Have at least 1 constant character
+        {
+            // Check whether the coefficient is 1
+            if (coe == 1)
+            {
+                // Only add the character
+                coefficient = numChar;
+            }
+            else          // Otherwise
+            {
+                // Convert it back to a string and add the constant characters
+                coefficient = to_string(coe) + numChar;
+            }
+        }
     }
     // If we found a . but not a / => this is a decimal value
     else if (slash == string::npos && dot != string::npos)
     {
-        // Find any characters
-
         // Convert the string to a double
-        double coe = stod(coefficient);
+        double coe = stod(numeratorString);
 
         // Multiply the coefficient with the number we passed into the function
         coe *= double (num);
 
         // Convert it back to a string
-        coefficient = to_string(coe);
+        string coefficientString = to_string(coe);
 
         // Clean the 0s
-        while (coefficient.back() == '0' || coefficient.back() == '.')
+        while (coefficientString.back() == '0' || coefficientString.back() == '.')
         {
             // Remove the last stringacter
-            coefficient.pop_back();
+            coefficientString.pop_back();
         }
 
-        // Add the constant characters back in
-        coefficient += numChar;
+        // No constant characters
+        if (numChar.length() == 0)
+        {
+            // Only add the number
+            coefficient = coefficientString;
+        }
+        else          // Have at least 1 constant character
+        {
+            // Check whether the coefficient is 1
+            if (coe == 1)
+            {
+                // Only add the character
+                coefficient = numChar;
+            }
+            else          // Otherwise
+            {
+                // Convert it back to a string and add the constant characters
+                coefficient = coefficientString + numChar;
+            }
+        }
     }
     // If we found a / but not a . => this is an integer / integer fraction
     else if (slash != string::npos && dot == string::npos)
     {
         // Convert the numerator and the denominator
-        int numerator = stoi(coefficient.substr(0, slash));
-        int denominator = stoi(coefficient.substr(slash + 1));
+        int numerator = stoi(numeratorString);
+        int denominator = stoi(denominatorString);
 
         // Multiply the numerator by num
         numerator *= num;
@@ -166,7 +250,7 @@ int Term::gcd(int a, int b)
 void Term::derivative()
 {
     // If the exponent is not 0, we will need to calculate the derivative
-    if (exponent > 0)
+    if (exponent > 1)
     {
         // Decrease the exponent by 1
         exponent = exponent - 1;
@@ -174,8 +258,14 @@ void Term::derivative()
         // Multiply the coefficient by the original exponent
         multiply(coefficient, exponent + 1);
     }
+    // If the exponent is 1
+    else if (exponent == 1)
+    {
+        // Keep the coefficient, only decrease the exponent by 1
+        exponent = exponent - 1;
+    }
     // Otherwise (if the exponent is 0) then this is a number
-    else
+    else if (exponent == 0)
     {
         // Therefore, the derivative will be 0
         coefficient = "";

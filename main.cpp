@@ -192,6 +192,7 @@ void reformatString(string &data)
 
 Term createTerm(string data, string variable)
 {
+    // If there is no data or variable
     if (data.length() == 0 || variable.length() == 0)
     {
         // Display an error message
@@ -267,6 +268,9 @@ Term createTerm(string data, string variable)
 
     // Create the Term
     Term t(variable, coefficient, exponent, sign);
+
+    // Debug information
+    // t.debugInfo();
 
     // Return the Term
     return t;
