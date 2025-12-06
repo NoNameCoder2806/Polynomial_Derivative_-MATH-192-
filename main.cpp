@@ -59,10 +59,16 @@ int main()
         // Display the result
         cout << "Result: " << f.toString() << endl;
 
+        // Enter a new line
+        cout << endl;
+
         // Ask the user whether they want to run the program again
         cout << "Do you want to enter another function? (Y/N): ";
         cin >> choice;
         cin.ignore(1000, 10);
+
+        // Enter a new line
+        cout << endl;
     }
 
     // Display a message

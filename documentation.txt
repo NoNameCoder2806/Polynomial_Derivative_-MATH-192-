@@ -1,0 +1,36 @@
+Author: Dat Hoang Vien
+Class: MATH-192 (Fall 2025)
+Project: Capturing Math Through Art
+Professor: Professor Servando Pineda-Carranza
+Date: Dec 05, 2025
+
+Program description:
+    - This is a program to calculate derivatives of polynomials using power rules.
+
+How to use: (See the screenshot.docx file for more details)
+    - Download the main.exe file.
+    - Double click the file.
+    - Enter your function and the order of the derivative.
+        + Enter "n" for negative exponents (Ex: x^n3 = x^-3)
+        + Enter numerator/denominator for fractions (Ex: 1/5x^7 = 0.2x^7)
+    - When asked whether you want to calculate another derivative of another function,
+        + Enter 'Y' or 'y' if yes
+        + Enter 'N' or 'n' (or any other character) if no
+
+What the program does: (see details.txt for more)
+    - Calculate derivatives of polynomials with integer exponents Terms
+        + Note: for negative exponents, use "n" instead of "-". (Ex: f(x) = 2x^n3, n3 = -3)
+    - Supports fraction coefficients. (Ex: f(x) = 1/5x^6)
+        + Note: only integer / integer fractions, and the sign must be placed in front on the fraction
+    - Supports decimal coefficients. (Ex:  f(x) = 0.2x^6)
+    - Supports character constants as coefficients. (Ex: f(x) = -2cx^6, 'c' as a constant)
+    - Supports multiple signs in front of the Terms. (Ex: f(x) = --++-2x^6 -> -2x^6)
+    - Display derivatives in the correct order notation. (Ex: f'(x), f''(x), f'''(x), f(4)(x), ...)
+
+Limits of the program: 
+    Please note that as of today (Dec 05, 2025):
+    - This program does NOT support decimal exponents, only integers.
+    - This program does NOT support log() and ln() as constants.
+    - Do NOT use parantheses unless it's for the function at the start.
+    - Always enter the function in this format: function(variable) = Term1 + Term2 + Term3 + ...
+    - To input negative exponents, please place "n" instead of the "-" sign. (Ex: x^(-3) -> x^n3)

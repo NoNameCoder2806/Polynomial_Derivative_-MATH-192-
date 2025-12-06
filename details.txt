@@ -28,7 +28,7 @@
     - Read the data, check whether the polynomial is valid or not.
     - If valid, create a Polynomial, determine the number of Terms
     - Let user enter the derivative order
-    - Calculate the derivative order
+    - Calculate the derivative
     - Display the result
 
 4. Features:
@@ -38,7 +38,4 @@
     - Supports decimal values (Ex: f(x) = 12.56x^8 + 23.1x)
     - Support constants as characters (Ex: f(x) = 2a/3x^4 + 0.125bcx^3)
     - Support variables that have multiple characters (Ex: f(xyz) = 2xyz^6 + 1)
-    - 
-
-5. Features to add:
-    - Negative exponents
+    - Support negative exponents using the "n" character (Ex: f(x) = 2x^n3, n3 = -3)
