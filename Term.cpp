@@ -10,12 +10,13 @@
 using namespace std;
 
 // Constructor
-Term::Term(string var, string coe, int p, int s)
+Term::Term(string var, string coe, int p, int s, bool ne)
 {
     variable = var;
     coefficient = coe;
     exponent = p;
     sign = s;
+    negativeExponent = ne;
 }
 
 // Accessors / Getters
@@ -23,12 +24,14 @@ string Term::getVariable() const { return variable; }
 string Term::getCoefficient() const { return coefficient; }
 int Term::getExponent() const { return exponent; }
 int Term::getSign() const { return sign; }
+bool Term::getNegativeExponent() const { return negativeExponent; }
 
 // Mutators / Setters
 void Term::setVariable(string var) { variable = var; }
 void Term::setCoefficient(string coe) { coefficient = coe; }
 void Term::setExponent(int p) { exponent = p; }
 void Term::setSign(int s) { sign = s; }
+void Term::setNegativeExponent(bool ne) { negativeExponent = ne; }
 
 // Operator<()
 bool Term::operator<(const Term &other)
@@ -162,14 +165,12 @@ void Term::multiply(string &coefficient, int num)
         // Convert it back to a string
         string coefficientString = to_string(coe);
 
-        // Clean the 0s
+        // Clean the 0s and the .
         while (coefficientString.back() == '0' || coefficientString.back() == '.')
         {
-            // Remove the last stringacter
+            // Remove the last string
             coefficientString.pop_back();
         }
-
-        cout << "Coefficient string: " << coefficientString << endl;
 
         // No constant characters
         if (numChar.length() == 0)
@@ -251,34 +252,59 @@ int Term::gcd(int a, int b)
 // Derivative() function
 void Term::derivative()
 {
-    // If the exponent is not 0, we will need to calculate the derivative
-    if (exponent > 1)
+    // If this is a negative exponent
+    if (negativeExponent)
     {
-        // Decrease the exponent by 1
-        exponent = exponent - 1;
+        // Add the exponent by 1 because the exponent is only a positive value
+        exponent = exponent + 1;
+
+        // Check for negative exponent
+        if (negativeExponent)
+        {
+            // Switch the sign
+            sign = (-1) * sign;
+        }
 
         // Multiply the coefficient by the original exponent
-        multiply(coefficient, exponent + 1);
+        multiply(coefficient, exponent - 1);
     }
-    // If the exponent is 1
-    else if (exponent == 1)
+    else
     {
-        // Keep the coefficient, only decrease the exponent by 1
-        exponent = exponent - 1;
-    }
-    // Otherwise (if the exponent is 0) then this is a number
-    else if (exponent == 0)
-    {
-        // Therefore, the derivative will be 0
-        coefficient = "";
-        exponent = 0;
-        sign = 0;
+        // If the exponent is not 0, we will need to calculate the derivative
+        if (exponent > 1)
+        {
+            // Decrease the exponent by 1
+            exponent = exponent - 1;
+
+            // Multiply the coefficient by the original exponent
+            multiply(coefficient, exponent + 1);
+        }
+        // If the exponent is 1
+        else if (exponent == 1)
+        {
+            // Keep the coefficient, only decrease the exponent by 1
+            exponent = exponent - 1;
+        }
+        // Otherwise (if the exponent is 0) then this is a number
+        else if (exponent == 0)
+        {
+            // Therefore, the derivative will be 0
+            coefficient = "";
+            exponent = 0;
+            sign = 0;
+        }
     }
 }
 
 // ToString() function: convert the Term to a string
 string Term::toString()
 {
+    // Check whether the coefficient is 0
+    if (coefficient == "0")
+    {
+        return "";
+    }
+
     // Create a variable to store the whole string sequence
     string fullTerm = "";
 
@@ -294,25 +320,33 @@ string Term::toString()
     }
 
     // Then, we add the coefficient to the Term
-    if (coefficient != "1" && exponent > 0)
+    if (coefficient != "1" && exponent >= 0)
     {
         fullTerm += coefficient;
     }
 
-    // If the exponent is 0, we ignore it
-    if (exponent == 0)
+    // Display negative exponent
+    if (negativeExponent)
     {
-        ;
+        fullTerm += variable + "^-" + to_string(exponent);
     }
-    // If the exponent is 1, we only add the variable to the string
-    else if (exponent == 1)
-    {
-        fullTerm += variable;
-    }
-    // Otherwise, we add the variable and the exponent
     else
     {
-        fullTerm += variable + "^" + to_string(exponent);
+        // If the exponent is 0, we ignore it
+        if (exponent == 0)
+        {
+            ;
+        }
+        // If the exponent is 1, we only add the variable to the string
+        else if (exponent == 1)
+        {
+            fullTerm += variable;
+        }
+        // Otherwise, we add the variable and the exponent
+        else
+        {
+            fullTerm += variable + "^" + to_string(exponent);
+        }
     }
 
     // Return the string
@@ -327,4 +361,13 @@ void Term::debugInfo()
     cout << "Coefficient: " << (coefficient.length() == 0 ? "1" : coefficient) << endl;
     cout << "Variable: " << variable << endl;
     cout << "Exponent: " << exponent << endl;
+    cout << "Negative Exponent: " ;
+    if (negativeExponent) 
+    {
+        cout << "True" << endl;
+    }
+    else 
+    {
+        cout << "False" << endl;
+    }
 }

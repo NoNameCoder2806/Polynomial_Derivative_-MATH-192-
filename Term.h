@@ -18,22 +18,25 @@ private:
     string coefficient;          // The coefficient of the Term
     int exponent;                // The exponent of the Term
     int sign;                    // The sign of the Term (positive: 1 or negative: -1)
+    bool negativeExponent;       // Whether the exponent is negative or not
 
 public:
     // Constructor
-    Term(string var = "x", string coe = "1", int p = 1, int s = 1);
+    Term(string var = "x", string coe = "1", int p = 1, int s = 1, bool ne = false);
 
     // Accessors / Getters
     string getVariable() const;
     string getCoefficient() const;
     int getExponent() const;
     int getSign() const;
+    bool getNegativeExponent() const;
 
     // Mutators / Setters
     void setVariable(string var);
     void setCoefficient(string coe);
     void setExponent(int p);
     void setSign(int s);
+    void setNegativeExponent(bool ne);
 
     // Operator<()
     bool operator<(const Term &other);

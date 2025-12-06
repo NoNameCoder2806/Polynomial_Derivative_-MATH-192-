@@ -204,6 +204,7 @@ Term createTerm(string data, string variable)
     int sign = 1;
     string coefficient = "";
     int exponent = 0;
+    bool negativeExponent = false;
 
     // Check the sign
     if (data.at(0) == '-')
@@ -258,8 +259,20 @@ Term createTerm(string data, string variable)
         // If found, the exponent is larger than 1
         else
         {
-            // Take everything from the ^ to the end of the string
-            exponent = stoi(data.substr(expoPos + 1));
+            // Check for the first letter and see whether it's an n or not (n stands for negative exponent)
+            if (data.substr(expoPos+ 1).at(0) == 'n')
+            {
+                // Negative exponent
+                negativeExponent = true;
+
+                // Take everything from the ^ + 1 position to the end of the string
+                exponent = stoi(data.substr(expoPos + 2));
+            }
+            else
+            {
+                // Take everything from the ^ to the end of the string
+                exponent = stoi(data.substr(expoPos + 1));
+            }
             
             // Take everything from the start to the variable
             coefficient = data.substr(0, varPos);
@@ -267,7 +280,7 @@ Term createTerm(string data, string variable)
     }
 
     // Create the Term
-    Term t(variable, coefficient, exponent, sign);
+    Term t(variable, coefficient, exponent, sign, negativeExponent);
 
     // Debug information
     // t.debugInfo();
